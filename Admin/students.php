@@ -35,7 +35,7 @@ if (!isset($_SESSION['admin'])) {
             </thead>
             <tbody>
               <?php
-              $sql = "SELECT * FROM students ORDER BY id DESC";
+              $sql = "SELECT * FROM users WHERE user_type <> 'admin'";
               $result = $conn->query($sql);
               while($row = $result->fetch_assoc()):
               ?>

@@ -57,12 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_type'] = 'student';
             $_SESSION['isLogin'] = true;
             
-            // DEBUG: Check what's being set
-            // echo "<pre>Session set: ";
-            // print_r($_SESSION);
-            // echo "</pre>";
-            // exit();
-            
             header("Location: index.php");
             exit;
         } else {
@@ -174,7 +168,7 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
             </button>
             <p class="text-center mb-0">
                 Already have an account? 
-                <a href="?status=signin" class="fw-bold text-decoration-none">Login Here</a>
+                <a href="./login.php" class="fw-bold text-decoration-none">Login Here</a>
             </p>
         </form>
         <?php endif; ?>

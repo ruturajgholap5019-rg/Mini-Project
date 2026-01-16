@@ -192,7 +192,7 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
             </button>
             <p class="text-center mb-0">
                 Already have an account? 
-                <a href="?status=signin" class="fw-bold text-decoration-none">Sign In</a>
+                <a href="<?php echo $LoginStatus = 'sign in' ?>" class="fw-bold text-decoration-none">Sign In</a>
             </p>
         </form>
         <?php endif; ?>
