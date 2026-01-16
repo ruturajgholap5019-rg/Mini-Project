@@ -21,11 +21,11 @@ $conn = mysqli_connect("localhost", "root", "", "examportal");
   <div class="row mt-4">
     <?php
     // Fetch all active exams
-    $sql = "SELECT * FROM exams WHERE exam_date >= CURDATE() ORDER BY id DESC";
+    $sql = "SELECT * FROM exams ";
     $result = mysqli_query($conn, $sql);
     
     if(mysqli_num_rows($result) > 0) {
-        while($exam = mysqli_fetch_assoc($exam)) {
+        while($exam = mysqli_fetch_assoc($result)) {
             // Check if student has already taken this exam
             $student_id = $_SESSION['user_id'];
             $exam_id = $exam['id'];

@@ -8,7 +8,6 @@ if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin'] != true) {
 $exam_id = $_GET['id'] ?? 0;
 $student_id = $_SESSION['user_id'];
 
-// Connect to database
 $conn = mysqli_connect("localhost", "root", "", "examportal");
 
 // Get exam details
