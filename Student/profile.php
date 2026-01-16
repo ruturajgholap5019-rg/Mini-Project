@@ -8,7 +8,6 @@ if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin'] != true) {
 include "header.php";
 ?>
 
-<div class="content-wrapper">
   <div class="row">
     <div class="col-md-12">
       <h2>Your Profile</h2>
@@ -56,6 +55,5 @@ include "header.php";
       </div>
     </div>
   </div>
-</div>
 
 <?php include "footer.php"; ?>

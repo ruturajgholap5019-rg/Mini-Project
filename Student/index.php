@@ -1,15 +1,25 @@
 <?php
+// student/index.php - CORRECTED VERSION
 session_start();
+
+// FIX: Check if user is logged in AND is a student
 if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin'] != true) {
     header("Location: login.php");
     exit();
 }
+
+// Optional: Also check user_type if you want
+// if(!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'student') {
+//     header("Location: login.php");
+//     exit();
+// }
+
 $username = $_SESSION['username'];
 include "header.php";
 ?>     
 
 
-  <div class="row">
+<div class="row">
   <div class="col-md-12">
     <div class="card bg-primary text-white">
       <div class="card-body text-center py-5">
@@ -57,6 +67,5 @@ include "header.php";
     </div>
   </div>
 </div>
-
 
 <?php include "footer.php"; ?>

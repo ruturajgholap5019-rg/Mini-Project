@@ -1,37 +1,73 @@
-
 <?php
-// login.php
+// login.php - FIXED VERSION
 session_start();
 require 'db.php';
 
-if (isset($_SESSION['admin'])) {
-    header('Location: index.php');
+// Check if already logged in
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['user_type'] == 'admin') {
+        header('Location: admin/index.php');
+    } else {
+        header('Location: student/index.php');
+    }
     exit();
 }
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    
+    // Check users table first
     $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
     $result = $conn->query($sql);
+    
     if ($result && $result->num_rows === 1) {
         $user = $result->fetch_assoc();
+        
+        // Set session variables
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['name'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['user_type'] = $user['user_type'];
+        $_SESSION['isLogin'] = true;
+        
+        // Redirect based on user type
         if ($user['user_type'] === 'admin') {
             $_SESSION['admin'] = $user['email'];
-            header('Location: Admin/index.php');
-            exit();
-        } 
-        elseif ($user['user_type'] === 'student') {
-            $_SESSION['user'] = $user['email'];
-            header('Location: User/index.php');
-            exit();
+            header('Location: admin/index.php');
+        } elseif ($user['user_type'] === 'student') {
+            $_SESSION['student'] = $user['email'];
+            header('Location: student/index.php');
         }
+        exit();
     } else {
         $error = "Invalid email or password";
     }
 }
 
-// ADD THIS LINE - Ensure $LoginStatus is always defined
+// Handle registration (signup)
+if (isset($_POST['register'])) {
+    $name = $_POST['username'];
+    $email = $_POST['gmail'];
+    $password = $_POST['pass'];
+    
+    // Check if email exists
+    $check = $conn->query("SELECT * FROM users WHERE email = '$email'");
+    if ($check->num_rows == 0) {
+        $insert = "INSERT INTO users (name, email, password, user_type) 
+                  VALUES ('$name', '$email', '$password', 'student')";
+        
+        if ($conn->query($insert)) {
+            $success = "Registration successful! Please login.";
+            $LoginStatus = 'sign in'; // Switch to login form
+        } else {
+            $error = "Registration failed: " . $conn->error;
+        }
+    } else {
+        $error = "Email already exists!";
+    }
+}
+
 $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
 ?>
 <!DOCTYPE html>
@@ -74,12 +110,8 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
             padding: 12px;
             font-weight: 600;
         }
-        .form-control {
-            padding: 12px;
-        }
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+        .alert {
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -90,6 +122,14 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
             <h3>ExamHub</h3>
             <p class="text-muted">Online Examination Portal</p>
         </div>
+        
+        <?php if(isset($error)): ?>
+            <div class="alert alert-danger"><?php echo $error; ?></div>
+        <?php endif; ?>
+        
+        <?php if(isset($success)): ?>
+            <div class="alert alert-success"><?php echo $success; ?></div>
+        <?php endif; ?>
         
         <?php if($LoginStatus === 'sign in'): ?>
         <h4 class="text-center mb-4">Sign In to Your Account</h4>
@@ -108,12 +148,18 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
                     <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mb-3">
+            <button type="submit" name="login" class="btn btn-primary mb-3">
                 <i class="fas fa-sign-in-alt me-2"></i> Login
             </button>
             <p class="text-center mb-0">
                 New user? 
                 <a href="?status=signup" class="fw-bold text-decoration-none">Create Account</a>
+            </p>
+            <p class="text-center mb-0 mt-2">
+                <small>
+                    Admin: admin@examhub.com / admin123<br>
+                    Student: student@examhub.com / student123
+                </small>
             </p>
         </form>
         <?php else: ?>
@@ -141,7 +187,7 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
                 </div>
                 <div class="form-text">Must be at least 6 characters</div>
             </div>
-            <button type="submit" class="btn btn-primary mb-3">
+            <button type="submit" name="register" class="btn btn-primary mb-3">
                 <i class="fas fa-user-plus me-2"></i> Register
             </button>
             <p class="text-center mb-0">

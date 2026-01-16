@@ -1,11 +1,15 @@
 <?php
+// admin/index.php - FIXED
 require 'db.php';
-
 session_start();
-if (!isset($_SESSION['admin'])) {
+
+// Check if admin is logged in
+if (!isset($_SESSION['admin']) || $_SESSION['user_type'] != 'admin') {
     header('Location: ../login.php');
     exit();
 }
+
+$admin_email = $_SESSION['admin'];
 ?>
 <?php include "header.php"; ?>
 
