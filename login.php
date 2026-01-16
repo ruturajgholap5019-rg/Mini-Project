@@ -154,13 +154,7 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
             <p class="text-center mb-0">
                 New user? 
                 <a href="?status=signup" class="fw-bold text-decoration-none">Create Account</a>
-            </p>
-            <p class="text-center mb-0 mt-2">
-                <small>
-                    Admin: admin@examhub.com / admin123<br>
-                    Student: student@examhub.com / student123
-                </small>
-            </p>
+        </p>
         </form>
         <?php else: ?>
         <h4 class="text-center mb-4">Create New Account</h4>
@@ -192,7 +186,7 @@ $LoginStatus = isset($_GET['status']) ? $_GET['status'] : 'sign in';
             </button>
             <p class="text-center mb-0">
                 Already have an account? 
-                <a href="<?php echo $LoginStatus = 'sign in' ?>" class="fw-bold text-decoration-none">Sign In</a>
+                <a href="./login.php" class="fw-bold text-decoration-none">Sign In</a>
             </p>
         </form>
         <?php endif; ?>

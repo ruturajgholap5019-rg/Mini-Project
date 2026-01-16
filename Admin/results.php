@@ -1,5 +1,4 @@
 <?php
-// results.php
 require 'db.php';
 session_start();
 if (!isset($_SESSION['admin'])) {
@@ -37,12 +36,11 @@ if (!isset($_SESSION['admin'])) {
             </thead>
             <tbody>
               <?php
-              // Using INNER JOIN to get data from multiple tables
-              $sql = "SELECT r.*, s.name as student_name, e.title as exam_title 
+              $sql = "SELECT r.*, u.name as student_name, e.title as exam_title 
                       FROM results r
-                      INNER JOIN students s ON r.student_id = s.id
+                      INNER JOIN users u ON r.student_id = u.id
                       INNER JOIN exams e ON r.exam_id = e.id
-                      ORDER BY r.attempted_at DESC";
+                      ORDER BY r.attempted_at DESC;";
               $result = $conn->query($sql);
               while($row = $result->fetch_assoc()):
               ?>

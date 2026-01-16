@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>EXAM PORTAL WEBSITE</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -25,19 +25,26 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+      <a style="margin-right:35px; margin-left: 5px;" class="navbar-brand" href="index.php">
+        <i class="fas fa-graduation-cap me-2"></i>
+        <strong>ExamHub</strong>
+      </a>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
+        <a href="index.php" class="nav-link font-weight-bold" style="color:black">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="students.php" class="nav-link">Students</a>
+        <a href="students.php" class="nav-link font-weight-bold" style="color:black">Students</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="results.php" class="nav-link">Results</a>
+        <a href="exams.php" class="nav-link font-weight-bold" style="color:black">Exams</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="results.php" class="nav-link font-weight-bold" style="color:black">Results</a>
       </li>
     </ul>
 
     <div>
-      <a href="logout.php" style="margin-left:500px; background-color:red; color:white; padding:5px 10px; border:none; border-radius :10px; font-weight:bold;">Logout</a>
+      <a href="logout.php" style="margin-left:260px; background-color:red; color:white; padding:5px 10px; border:none; border-radius :10px; font-weight:bold;">Logout</a>
     </div>
 
     <ul class="navbar-nav ml-auto">
@@ -163,9 +170,9 @@
 
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="index.php" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">AdminDashboard</span>
     </a>
 
     <div class="sidebar">

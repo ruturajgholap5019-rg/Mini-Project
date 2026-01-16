@@ -1,9 +1,7 @@
 <?php
-// admin/index.php - FIXED
 require 'db.php';
 session_start();
 
-// Check if admin is logged in
 if (!isset($_SESSION['admin']) || $_SESSION['user_type'] != 'admin') {
     header('Location: ../login.php');
     exit();
@@ -11,6 +9,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['user_type'] != 'admin') {
 
 $admin_email = $_SESSION['admin'];
 ?>
+
 <?php include "header.php"; ?>
 
 <div class="content-wrapper">
@@ -24,7 +23,7 @@ $admin_email = $_SESSION['admin'];
     <div class="container-fluid">
       <div class="row">
         <?php
-        $students = $conn->query("SELECT COUNT(*) as c FROM students")->fetch_assoc()['c'];
+        $students = $conn->query("SELECT COUNT(*) as c FROM users")->fetch_assoc()['c'];
         $exams = $conn->query("SELECT COUNT(*) as c FROM exams")->fetch_assoc()['c'];
         $results = $conn->query("SELECT COUNT(*) as c FROM results")->fetch_assoc()['c'];
         ?>
@@ -32,7 +31,7 @@ $admin_email = $_SESSION['admin'];
         <div class="col-lg-3 col-6">
           <div class="small-box bg-info">
             <div class="inner">
-              <h3><?php echo $students; ?></h3>
+              <h3><?php echo $students - 1; ?></h3>
               <p>Students</p>
             </div>
             <div class="icon">

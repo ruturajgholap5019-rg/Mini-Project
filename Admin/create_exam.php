@@ -1,5 +1,4 @@
 <?php
-// create_exam.php
 require 'db.php';
 session_start();
 if (!isset($_SESSION['admin'])) {
@@ -7,11 +6,7 @@ if (!isset($_SESSION['admin'])) {
     exit();
 }
 
-$msg = '';
-$error = '';
-
 if (isset($_POST['create'])) {
-    // 1. Create exam
     $title = $_POST['title'];
     $description = $_POST['description'];
     $total_questions = $_POST['total_questions'];
@@ -24,31 +19,28 @@ if (isset($_POST['create'])) {
     
     if ($conn->query($sql)) {
         $exam_id = $conn->insert_id;
-        $msg = "Exam created successfully! Exam ID: $exam_id";
         
-        // 2. Add questions if provided
         if (isset($_POST['questions']) && is_array($_POST['questions'])) {
-            $questions_added = 0;
-            foreach ($_POST['questions'] as $question) {
-                if (!empty($question['text'])) {
-                    $q_text = $question['text'];
-                    $opt_a = $question['a'];
-                    $opt_b = $question['b'];
-                    $opt_c = $question['c'];
-                    $opt_d = $question['d'];
-                    $correct = $question['correct'];
-                    
-                    $q_sql = "INSERT INTO questions (exam_id, question_text, option_a, option_b, option_c, option_d, correct_option) 
-                              VALUES ($exam_id, '$q_text', '$opt_a', '$opt_b', '$opt_c', '$opt_d', '$correct')";
-                    
-                    if ($conn->query($q_sql)) {
-                        $questions_added++;
-                    }
+          $questions_added = 0;
+          foreach ($_POST['questions'] as $question) {
+            if (!empty($question['text'])) {
+                $q_text = $question['text'];
+                $opt_a = $question['a'];
+                $opt_b = $question['b'];
+                $opt_c = $question['c'];
+                $opt_d = $question['d'];
+                $correct = $question['correct'];
+                
+                $q_sql = "INSERT INTO questions (exam_id, question_text, option_a, option_b, option_c, option_d, correct_option) 
+                          VALUES ($exam_id, '$q_text', '$opt_a', '$opt_b', '$opt_c', '$opt_d', '$correct')";
+                
+                if ($conn->query($q_sql)) {
+                    $questions_added++;
                 }
             }
-            $msg .= "<br>$questions_added questions added.";
-            }
-            } else {
+          }
+        }
+      } else {
         $error = "Error creating exam: " . $conn->error;
     }
 }
@@ -71,16 +63,8 @@ if (isset($_POST['create'])) {
             <div class="card-header">
               <h3 class="card-title">Exam Details & Questions</h3>
             </div>
-            <form method="POST">
-              <div class="card-body">
-                <?php if($msg): ?>
-                  <div class="alert alert-success"><?php echo $msg; ?></div>
-                <?php endif; ?>
-                <?php if($error): ?>
-                  <div class="alert alert-danger"><?php echo $error; ?></div>
-                <?php endif; ?>
-                
-                <!-- Basic Exam Info -->
+            <form method="POST" action="./exams.php">
+              <div class="card-body">              
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -125,7 +109,6 @@ if (isset($_POST['create'])) {
                 <hr>
                 <h4>Add Questions</h4>
                 <div id="questions-container">
-                  <!-- Questions will be added here dynamically -->
                   <div class="question-box card mb-3">
                     <div class="card-header bg-light">
                       <h5 class="mb-0">Question 1</h5>

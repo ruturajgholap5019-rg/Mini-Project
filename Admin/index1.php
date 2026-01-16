@@ -1,8 +1,6 @@
 <?php
-// index.php (admin dashboard)
 require 'db.php';
 
-// Check if admin is logged in
 session_start();
 if (!isset($_SESSION['admin'])) {
     header('Location: login.php');
@@ -12,21 +10,17 @@ if (!isset($_SESSION['admin'])) {
 <?php include "header.php"; ?>
 
 <div class="content-wrapper">
-  <!-- Content Header -->
   <section class="content-header">
     <div class="container-fluid">
       <h1>Dashboard</h1>
     </div>
   </section>
 
-  <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      <!-- Stats Row -->
       <div class="row">
         <?php
-        // Get counts
-        $students = $conn->query("SELECT COUNT(*) as c FROM students")->fetch_assoc()['c'];
+        $students = $conn->query("SELECT COUNT(*) as c FROM users")->fetch_assoc()['c'];
         $exams = $conn->query("SELECT COUNT(*) as c FROM exams")->fetch_assoc()['c'];
         $results = $conn->query("SELECT COUNT(*) as c FROM results")->fetch_assoc()['c'];
         ?>
@@ -34,7 +28,7 @@ if (!isset($_SESSION['admin'])) {
         <div class="col-lg-3 col-6">
           <div class="small-box bg-info">
             <div class="inner">
-              <h3><?php echo $students; ?></h3>
+              <h3><?php echo $students - 1; ?></h3>
               <p>Students</p>
             </div>
             <div class="icon">
@@ -84,7 +78,6 @@ if (!isset($_SESSION['admin'])) {
         </div>
       </div>
 
-      <!-- Recent Exams Table -->
       <div class="row">
         <div class="col-md-12">
           <div class="card">

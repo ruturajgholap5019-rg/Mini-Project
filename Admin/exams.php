@@ -1,5 +1,4 @@
 <?php
-// exams.php
 require 'db.php';
 session_start();
 if (!isset($_SESSION['admin'])) {
@@ -7,7 +6,6 @@ if (!isset($_SESSION['admin'])) {
     exit();
 }
 
-// Delete exam
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $conn->query("DELETE FROM exams WHERE id=$id");

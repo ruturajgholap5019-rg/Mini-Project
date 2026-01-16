@@ -1,5 +1,4 @@
 <?php
-// edit_exam.php
 require 'db.php';
 session_start();
 if (!isset($_SESSION['admin'])) {
@@ -9,7 +8,6 @@ if (!isset($_SESSION['admin'])) {
 
 $id = $_GET['id'];
 
-// Fetch exam data
 $sql = "SELECT * FROM exams WHERE id = $id";
 $exam = $conn->query($sql)->fetch_assoc();
 
@@ -32,7 +30,6 @@ if (isset($_POST['update'])) {
     
     if ($conn->query($update_sql)) {
         $msg = "Exam updated successfully!";
-        // Refresh exam data
         $exam = $conn->query($sql)->fetch_assoc();
     } else {
         $error = "Error: " . $conn->error;
