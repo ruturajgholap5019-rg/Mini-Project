@@ -8,10 +8,7 @@ if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin'] != true) {
 $exam_id = $_GET['exam_id'] ?? 0;
 $student_id = $_SESSION['user_id'];
 
-// Connect to database
-$conn = mysqli_connect("localhost", "root", "", "examportal");
-
-// Get result
+include "../db.php";
 $sql = "SELECT r.*, e.title as exam_title 
         FROM results r 
         JOIN exams e ON r.exam_id = e.id 
@@ -29,20 +26,16 @@ if(!$row) {
 include "header.php";
 ?>
 
-<!-- Same as exam_result.php but for viewing old results -->
     <div class="row">
         <div class="col-md-12">
             <h2>Result: <?php echo $row['exam_title']; ?></h2>
             <p class="text-muted">Taken on: <?php echo date('d M Y, h:i A', strtotime($row['attempted_at'])); ?></p>
         </div>
     </div>
-
     <div class="row mt-4">
         <div class="col-md-8 offset-md-2">
-            <!-- Same result display as exam_result.php -->
             <div class="card">
                 <div class="card-body text-center">
-                    <!-- Copy the result display from exam_result.php -->
                     <?php if($row['status'] == 'Pass'): ?>
                         <div class="result-pass mb-4">
                             <i class="fas fa-trophy fa-5x text-success mb-3"></i>
@@ -64,8 +57,6 @@ include "header.php";
                             <p class="text-muted mb-0">Score</p>
                         </div>
                     </div>
-                    
-                    <!-- Rest of the result display -->
                 </div>
             </div>
         </div>

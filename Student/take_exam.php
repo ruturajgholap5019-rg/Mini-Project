@@ -5,21 +5,18 @@ if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin'] != true) {
     exit();
 }
 
+include "../db.php";
+
 $exam_id = $_GET['id'] ?? 0;
 $student_id = $_SESSION['user_id'];
 
-$conn = mysqli_connect("localhost", "root", "", "examportal");
-
-// Get exam details
 $exam_sql = "SELECT * FROM exams WHERE id = $exam_id";
 $exam_result = mysqli_query($conn, $exam_sql);
 $exam = mysqli_fetch_assoc($exam_result);
 
-// Get questions for this exam
 $questions_sql = "SELECT * FROM questions WHERE exam_id = $exam_id ORDER BY RAND() LIMIT " . $exam['total_questions'];
 $questions_result = mysqli_query($conn, $questions_sql);
 
-// Check if already attempted
 $check_sql = "SELECT * FROM results WHERE student_id = $student_id AND exam_id = $exam_id";
 $check_result = mysqli_query($conn, $check_sql);
 if(mysqli_num_rows($check_result) > 0) {
@@ -27,15 +24,12 @@ if(mysqli_num_rows($check_result) > 0) {
     exit();
 }
 
-// Handle exam submission
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_exam'])) {
     $score = 0;
     $total_questions = mysqli_num_rows($questions_result);
     
-    // Reset pointer to beginning
     mysqli_data_seek($questions_result, 0);
     
-    // Check each answer
     while($question = mysqli_fetch_assoc($questions_result)) {
         $qid = $question['id'];
         $correct_answer = $question['correct_option'];
@@ -45,11 +39,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_exam'])) {
         }
     }
     
-    // Calculate percentage
     $percentage = ($score / $total_questions) * 100;
     $status = ($percentage >= $exam['passing_score']) ? 'Pass' : 'Fail';
     
-    // Save result
     $insert_sql = "INSERT INTO results (student_id, exam_id, score, total_questions, percentage, status) 
                    VALUES ($student_id, $exam_id, $score, $total_questions, $percentage, '$status')";
     
@@ -60,8 +52,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_exam'])) {
     }
 }
 
-// Start exam timer
-$exam_duration = $exam['duration_minutes'] * 60; // Convert to seconds
+$exam_duration = $exam['duration_minutes'] * 60;
 $_SESSION['exam_start_time'] = time();
 $_SESSION['exam_duration'] = $exam_duration;
 $_SESSION['exam_id'] = $exam_id;
@@ -148,7 +139,6 @@ $_SESSION['exam_id'] = $exam_id;
 </head>
 <body>
     <div class="container">
-        <!-- Exam Header -->
         <div class="exam-header">
             <div class="row align-items-center">
                 <div class="col-md-6">
@@ -168,7 +158,6 @@ $_SESSION['exam_id'] = $exam_id;
             </div>
         </div>
 
-        <!-- Exam Form -->
         <form method="POST" id="examForm">
             <?php
             $question_num = 1;
@@ -182,25 +171,18 @@ $_SESSION['exam_id'] = $exam_id;
                         <h5><?php echo $question['question_text']; ?></h5>
                         
                         <div class="mt-3">
-                            <!-- Option A -->
                             <input type="radio" name="answer[<?php echo $question['id']; ?>]" value="A" id="q<?php echo $question['id']; ?>_a">
                             <label for="q<?php echo $question['id']; ?>_a" class="option-label">
                                 <strong>A.</strong> <?php echo $question['option_a']; ?>
                             </label>
-                            
-                            <!-- Option B -->
                             <input type="radio" name="answer[<?php echo $question['id']; ?>]" value="B" id="q<?php echo $question['id']; ?>_b">
                             <label for="q<?php echo $question['id']; ?>_b" class="option-label">
                                 <strong>B.</strong> <?php echo $question['option_b']; ?>
                             </label>
-                            
-                            <!-- Option C -->
                             <input type="radio" name="answer[<?php echo $question['id']; ?>]" value="C" id="q<?php echo $question['id']; ?>_c">
                             <label for="q<?php echo $question['id']; ?>_c" class="option-label">
                                 <strong>C.</strong> <?php echo $question['option_c']; ?>
                             </label>
-                            
-                            <!-- Option D -->
                             <input type="radio" name="answer[<?php echo $question['id']; ?>]" value="D" id="q<?php echo $question['id']; ?>_d">
                             <label for="q<?php echo $question['id']; ?>_d" class="option-label">
                                 <strong>D.</strong> <?php echo $question['option_d']; ?>
@@ -214,30 +196,25 @@ $_SESSION['exam_id'] = $exam_id;
             endwhile; 
             ?>
             
-            <!-- Submit Button -->
             <button type="submit" name="submit_exam" class="btn btn-success btn-lg submit-btn">
                 <i class="fas fa-paper-plane me-2"></i> Submit Exam
             </button>
         </form>
     </div>
 
-    <!-- Timer Script -->
     <script>
-        // Exam duration in seconds
         let duration = <?php echo $exam_duration; ?>;
         
         function updateTimer() {
             let minutes = Math.floor(duration / 60);
             let seconds = duration % 60;
             
-            // Add leading zeros
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
             
             document.getElementById('timer').textContent = minutes + ":" + seconds;
             
             if (duration <= 0) {
-                // Auto-submit when time is up
                 document.getElementById('examForm').submit();
             } else {
                 duration--;
@@ -245,7 +222,6 @@ $_SESSION['exam_id'] = $exam_id;
             }
         }
         
-        // Start timer
         updateTimer();
         
         // Prevent accidental reload or back button
@@ -253,7 +229,6 @@ $_SESSION['exam_id'] = $exam_id;
             return "Are you sure you want to leave? Your exam progress will be lost!";
         };
         
-        // Form submit handler
         document.getElementById('examForm').onsubmit = function() {
             window.onbeforeunload = null;
             return true;

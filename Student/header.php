@@ -94,7 +94,6 @@
       color: white;
     }
     
-    /* User panel in sidebar */
     .user-panel {
       padding: 20px;
       text-align: center;
@@ -102,19 +101,18 @@
       margin-bottom: 20px;
     }
     
-    /* Main content cards */
     .card {
       border-radius: 10px;
       border: none;
       box-shadow: 0 0 15px rgba(0,0,0,.05);
       margin-bottom: 20px;
     }
+    
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid">
       <button class="navbar-toggler sidebar-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar">
         <span class="navbar-toggler-icon"></span>

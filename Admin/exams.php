@@ -53,7 +53,7 @@ if (isset($_GET['delete'])) {
                 <td><?php echo $row['exam_date']; ?></td>
                 <td>
                   <a href="view_exam.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-info">View</a>
-                  <a href="edit_exam.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
+                  <a href="edit_questions.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
                   <a href="?delete=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger" 
                      onclick="return confirm('Delete this exam?')">Delete</a>
                 </td>

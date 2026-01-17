@@ -6,7 +6,7 @@ if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin'] != true) {
 }
 
 include "header.php";
-include "Mydb.php";
+include "../db.php";
 ?>
 
   <div class="row">

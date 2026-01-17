@@ -6,9 +6,8 @@ if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin'] != true) {
 }
 
 include "header.php";
+include "../db.php";
 
-// Connect to database
-$conn = mysqli_connect("localhost", "root", "", "examportal");
 $student_id = $_SESSION['user_id'];
 ?>
 
@@ -26,7 +25,6 @@ $student_id = $_SESSION['user_id'];
           <h4>Exam History</h4>
           
           <?php
-          // Fetch student's results
           $sql = "SELECT r.*, e.title as exam_title, e.total_questions as exam_total 
                   FROM results r 
                   JOIN exams e ON r.exam_id = e.id 

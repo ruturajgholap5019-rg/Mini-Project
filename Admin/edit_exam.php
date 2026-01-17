@@ -99,7 +99,7 @@ if (isset($_POST['update'])) {
                 </div>
               </div>
               <div class="card-footer">
-                <button type="submit" name="update" class="btn btn-primary">Update Exam</button>
+                <button type="submit" name="update" class="btn btn-primary">Update Changes</button>
                 <a href="exams.php" class="btn btn-default">Cancel</a>
               </div>
             </form>

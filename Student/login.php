@@ -1,12 +1,5 @@
 <?php
-// student/login.php - SIMPLIFIED VERSION
 session_start();
-
-// REMOVE THIS CHECK - It causes the redirect loop
-// if(isset($_SESSION['isLogin']) && $_SESSION['isLogin'] == true) {
-//     header("Location: index.php");
-//     exit();
-// }
 
 $conn = mysqli_connect("localhost", "root", "", "examportal");
 
